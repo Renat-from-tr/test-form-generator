@@ -1,0 +1,1 @@
+export type { PersonFormGroup } from './person-form-group.type';
