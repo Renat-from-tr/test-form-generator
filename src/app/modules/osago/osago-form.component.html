@@ -1,0 +1,63 @@
+@let ctrls = form.controls;
+
+<h2>Договор ОСАГО</h2>
+
+<form [formGroup]="form" (submit)="submit()">
+    <h3>Застрахованное лицо</h3>
+    <i-person-form [form]="ctrls.insuredPerson" [maxBirthdate]="maxBirthdate"></i-person-form>
+
+    <hr>
+
+    <h3>Собственник</h3>
+    <mat-checkbox
+        [checked]="ownerIsInsurer()"
+        (change)="onOwnerIsInsurerChange($event.checked)">
+        Собственник является страхователем
+    </mat-checkbox>
+
+    @if (!ownerIsInsurer()) {
+        <i-person-form class="d-block mt-3" [form]="ctrls.owner" [maxBirthdate]="maxBirthdate"></i-person-form>
+    }
+
+    <hr>
+
+    <h3>Транспортное средство</h3>
+    <i-vehicle-form [form]="ctrls.vehicle"></i-vehicle-form>
+
+    <hr>
+
+    <h3>Контактные данные</h3>
+    <i-contacts-form [form]="ctrls.contactData"></i-contacts-form>
+
+    <hr>
+
+    <h3>Документ, удостоверяющий личность</h3>
+    <i-document-form [form]="ctrls.identityDocument"></i-document-form>
+
+    <hr>
+
+    <mat-checkbox class="d-block" [formControl]="ctrls.isIndividualEntrepreneur">ИП (индивидуальный предприниматель)</mat-checkbox>
+    @if (ctrls.isIndividualEntrepreneur.value) {
+        <mat-form-field class="mt-3">
+            <mat-label>ИНН</mat-label>
+            <input matInput [formControl]="ctrls.inn" />
+        </mat-form-field>
+    }
+    <mat-checkbox class="d-block" [formControl]="ctrls.hasSNILS">Есть СНИЛС/инвалидность</mat-checkbox>
+    @if (ctrls.hasSNILS.value) {
+        <mat-form-field class="mt-3">
+            <mat-label>СНИЛС</mat-label>
+            <input matInput [formControl]="ctrls.SNILS" />
+        </mat-form-field>
+    }
+    <mat-checkbox class="d-block" [formControl]="ctrls.isOwnerDriver">Собственник = водитель</mat-checkbox>
+
+    <hr>
+
+    <mat-form-field>
+        <mat-label>Комментарий</mat-label>
+        <textarea matInput [formControl]="ctrls.comment"></textarea>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" class="mt-3" type="submit">Отправить</button>
+</form>
