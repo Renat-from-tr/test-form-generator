@@ -1,0 +1,17 @@
+@let ctrls = form.controls;
+
+<div class="row row-gap-3">
+  <div class="col-12 col-md-6">
+    <mat-form-field>
+      <mat-label>E-mail</mat-label>
+      <input matInput [formControl]="ctrls.email" type="email">
+    </mat-form-field>
+  </div>
+
+  <div class="col-12 col-md-6">
+    <mat-form-field>
+      <mat-label>Телефон</mat-label>
+      <input matInput [formControl]="ctrls.phone" type="tel">
+    </mat-form-field>
+  </div>
+</div>

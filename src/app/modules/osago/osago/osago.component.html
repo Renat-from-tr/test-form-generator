@@ -1,0 +1,87 @@
+@let ctrls = form.controls;
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">  <!-- Данные страхователя -->
+  <h3>Страхователь</h3>
+  <i-person-form [form]="ctrls.insuredPerson" [maxBirthDate]="maxBirthDate"></i-person-form>
+
+  <hr>
+  
+  <!-- Данные собственника -->
+  <h3>Собственник</h3>
+  <mat-checkbox 
+    class="d-block mb-3" 
+    [checked]="ownerIsSameAsInsured()"
+    (change)="toggleOwnerIsSameAsInsured()">
+    Собственник является страхователем
+  </mat-checkbox>
+  
+  @if (!ownerIsSameAsInsured()) {
+  <i-person-form [form]="ctrls.owner" [maxBirthDate]="maxBirthDate"></i-person-form>
+  }
+
+  <hr>
+
+  <!-- Информация о транспортном средстве -->
+  <h3>Транспортное средство</h3>
+  <i-vehicle-form [form]="ctrls.vehicle"></i-vehicle-form>
+
+  <hr>
+  <!-- Контактные данные -->
+  <h3>Контактные данные</h3>
+  <i-contacts-form [form]="ctrls.contactData"></i-contacts-form>
+
+  <hr>
+
+  <!-- Паспортные данные -->
+  <h3>Документ, удостоверяющий личность</h3>
+  <i-document-form [form]="ctrls.identityDocument"></i-document-form>
+
+  <hr>
+
+  <!-- Дополнительные признаки -->
+  <mat-checkbox class="d-block" [formControl]="ctrls.isIndividualEntrepreneur">
+    ИП (Индивидуальный предприниматель)
+  </mat-checkbox>
+
+  @if (ctrls.isIndividualEntrepreneur.value) {
+  <mat-form-field class="mt-3">
+    <mat-label>ИНН</mat-label>
+    <input matInput [formControl]="ctrls.inn" maxlength="10">
+    @if (ctrls.inn.errors?.['pattern']) {
+    <mat-error>ИНН должен содержать 10 цифр</mat-error>
+    }
+  </mat-form-field>
+  }
+  <mat-checkbox class="d-block" [formControl]="ctrls.hasSNILS">
+    СНИЛС
+  </mat-checkbox>
+
+  @if (ctrls.hasSNILS.value) {
+  <mat-form-field class="mt-3">
+    <mat-label>СНИЛС</mat-label>
+    <input matInput [formControl]="ctrls.SNILS" maxlength="11">
+    @if (ctrls.SNILS.errors?.['pattern']) {
+    <mat-error>СНИЛС должен иметь 11 цифр</mat-error>
+    }
+  </mat-form-field>
+  <small style="color: #666">
+    Имеет инвалидность, или является представителем инвалида/ребенка-инвалида.
+  </small>
+  }
+
+  <mat-checkbox class="d-block" [formControl]="ctrls.isOwnerDriver">
+    Собственник является водителем
+  </mat-checkbox>
+
+  <mat-form-field class="mt-3">
+    <mat-label>Комментарий</mat-label>
+    <textarea matInput [formControl]="ctrls.comment" rows="3"></textarea>
+  </mat-form-field>
+
+  <hr>
+
+  <!-- Кнопка отправки -->
+  <button type="submit" mat-raised-button color="primary">
+    Отправить форму
+  </button>
+</form>

@@ -1,0 +1,30 @@
+@let ctrls = form.controls;
+
+<div class="row row-gap-3">
+    <div class="col-12">
+        <mat-form-field>
+            <mat-label>Тип документа</mat-label>
+            <mat-select [formControl]="ctrls.type">
+                @for (docType of documentTypes; track docType.value) {
+                <mat-option [value]="docType.value">{{ docType.name }}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div class="col-12 col-md-6">
+        <mat-form-field>
+            <mat-label>Серия и номер</mat-label>
+            <input matInput [formControl]="ctrls.seriesNumber">
+        </mat-form-field>
+    </div>
+    
+    <div class="col-12 col-md-6">
+        <mat-form-field>
+            <mat-label>Дата выдачи</mat-label>
+            <input matInput [matDatepicker]="issueDatePicker" [formControl]="ctrls.issueDate" [max]="maxDate">
+            <mat-datepicker-toggle matIconSuffix [for]="issueDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #issueDatePicker></mat-datepicker>
+        </mat-form-field>
+    </div>
+</div>

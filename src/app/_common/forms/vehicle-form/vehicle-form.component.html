@@ -1,0 +1,71 @@
+@let ctrls = form.controls;
+
+<div class="row row-gap-3">
+    <div class="col-12 col-md-6">
+        <mat-form-field>
+            <mat-label>Марка, модель, год выпуска</mat-label>
+            <input matInput [formControl]="ctrls.makeModel">
+            @if (ctrls.makeModel.errors?.['minlength']) {
+            <mat-error>Минимальная длина 3 символа</mat-error>
+            }
+        </mat-form-field>
+    </div>
+
+    <div class="col-12 col-md-6">
+        <mat-form-field>
+            <mat-label>Мощность двигателя, л.с.</mat-label>
+            <input matInput type="number" [formControl]="ctrls.horsepower">
+            @if (ctrls.horsepower.errors?.['min']) {
+            <mat-error>Мощность должна быть больше 0</mat-error>
+            }
+            @if (ctrls.horsepower.errors?.['max']) {
+            <mat-error>Мощность не может превышать 2000 л.с.</mat-error>
+            }
+        </mat-form-field>
+    </div>
+
+    <div class="col-12 col-md-6">
+        <mat-form-field>
+            <mat-label>Госномер</mat-label>
+            <input matInput [formControl]="ctrls.registrationNumber">
+            @if (ctrls.registrationNumber.errors?.['pattern']) {
+            <mat-error>Неверный формат госномера</mat-error>
+            }
+        </mat-form-field>
+    </div>
+
+    <div class="col-12 col-md-6">
+        <mat-form-field>
+            <mat-label>VIN-код</mat-label>
+            <input matInput [formControl]="ctrls.vin" maxlength="17">
+            @if (ctrls.vin.errors?.['minlength'] || ctrls.vin.errors?.['maxlength']) {
+            <mat-error>VIN-код должен содержать ровно 17 символов</mat-error>
+            }
+            @if (ctrls.vin.errors?.['pattern']) {
+            <mat-error>VIN-код может содержать только латинские буквы и цифры</mat-error>
+            }
+        </mat-form-field>
+    </div>
+
+    <div class="col-12 col-md-6">
+        <mat-form-field>
+            <mat-label>Номер СТС</mat-label>
+            <input matInput [formControl]="ctrls.stsNumber">
+            @if (ctrls.stsNumber.errors?.['pattern']) {
+            <mat-error>Неверный формат номера СТС</mat-error>
+            }
+        </mat-form-field>
+    </div>
+
+    <div class="col-12 col-md-6">
+        <mat-form-field>
+            <mat-label>Дата выдачи СТС</mat-label>
+            <input matInput [matDatepicker]="picker" [formControl]="ctrls.stsIssueDate">
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            @if (ctrls.stsIssueDate.errors?.['matDatepickerMax']) {
+            <mat-error>Дата не может быть больше текущей</mat-error>
+            }
+        </mat-form-field>
+    </div>
+</div>

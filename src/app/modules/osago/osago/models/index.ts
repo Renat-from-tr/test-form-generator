@@ -1,0 +1,1 @@
+export * from './osago-form-group.type';
